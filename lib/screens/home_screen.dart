@@ -3,11 +3,13 @@ import 'dart:ffi';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:postcard_app/screens/help_screen.dart';
 import 'package:postcard_app/widget/background.dart';
 import 'package:postcard_app/widget/home_card.dart';
 import 'package:postcard_app/widget/home_collage_row.dart';
 import 'package:postcard_app/widget/home_collections_grid.dart';
 import 'package:postcard_app/widget/home_featured_designs.dart';
+import 'package:postcard_app/widget/slide_bottom_route.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -21,6 +23,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   ScrollController _controller = ScrollController();
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isInPostcard = true;
   int currentIndex = 0;
@@ -31,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // Setup the listener.
     _controller.addListener(() {
-      print(_controller.position.pixels);
       if (_controller.position.pixels < 180) {
         setState(() {
           this.currentIndex = 0;
@@ -54,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-      final _width = MediaQuery.of(context).size.width;
+    final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
 
     final header = ListView(
@@ -115,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     final body = new Scaffold(
-
+      // key: _scaffoldKey,
       backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
@@ -125,9 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: [
                 SizedBox(height: 10.0,),
-                Container(
-                  child: buildLeadingHelpButton(),
-                ),
+                buildLeadingHelpButton(),
                 Container(
                   height: 450.0,
                   width: _width,
@@ -226,7 +226,13 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             FlatButton(
               onPressed: () {
-                print('Heeeeelp');
+                _helpModalScreen(context);
+                // Navigator.push(
+                //   context,
+                //   SlideBottomRoute(
+                //     page: HelpScreen(),
+                //   ),
+                // );
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
@@ -247,5 +253,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       );
+  }
+
+  void _helpModalScreen(BuildContext context) {
+    // this._scaffoldKey.currentState.showBottomSheet(
+    //   (context) {
+    //     return HelpScreen();
+    //   },
+    // );
+
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      enableDrag: true,
+      isScrollControlled: true,
+      builder: (BuildContext bc) {
+        return HelpScreen();
+      });
   }
 }

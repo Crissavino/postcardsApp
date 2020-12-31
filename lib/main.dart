@@ -11,6 +11,9 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Open Sans',
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.black.withOpacity(0.3),
+        ),
       ),
       debugShowCheckedModeBanner: false,
       home: new MyHomePage(title: 'Popular'),
